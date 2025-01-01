@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Show Game</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff8a00, #e52e71); 
+            color: grey;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow-y: auto; /* Enable vertical scrolling */
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 700px;
+            width: 100%;
+            margin: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* Allow content to scroll within the container */
+            max-height: 90vh; /* Limit the height to 90% of the viewport */
+        }
+        h1 {
+            font-size: 3em;
+            color: #ff6347;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            color: #e52e71;
+            font-weight: bold;
+        }
+
+        /* Form Inputs and Buttons */
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+        }
+
+        input, select {
+            background-color: #fff;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #ff6347;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #e52e71;
+        }
+
+        /* Judges' Section */
+        .judges {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .judge {
+            text-align: center;
+            transform: translateY(50px);
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        .judge img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid #ff6347;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .judge p {
+            color: #333;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Results Section */
+        .result {
+            margin-top: 30px;
+            font-size: 1.5em;
+            color: grey;
+            text-align: center;
+            font-weight: bold;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .result p {
+            font-size: 1.2em;
+        }
+
+        .result span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>India's Got Latent</h1>
+        <h2>Episode-69</h2>
+        <form id="talentForm">
+            <label for="name">Enter Your Name:</label>
+            <input type="text" id="name" placeholder="Your Name" required>
+
+            <label for="talent">Choose Your Latent:</label>
+            <select id="talent" required>
+                <option value="">--Select Latent--</option>
+                <option value="Singing">Singing</option>
+                <option value="Dancing">Dancing</option>
+                <option value="Magic">Magic</option>
+                <option value="Comedy">Comedy</option>
+            </select>
+
+            <label for="points">Give Your Points (1-10):</label>
+            <input type="number" id="points" min="1" max="10" placeholder="Your Score" required>
+
+            <!-- Submit Button -->
+            <button type="button" onclick="playGame()">Submit</button>
+        </form>
+
+        <div class="judges" id="judges">
+            <!-- Judges' images and points will be displayed here -->
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function playGame() {
+            const name = document.getElementById('name').value;
+            const talent = document.getElementById('talent').value;
+            const userPoints = Math.round(Number(document.getElementById('points').value));
+            const resultDiv = document.getElementById('result');
+            const judgesDiv = document.getElementById('judges');
+
+            // Check if all fields are filled
+            if (!name || !talent || isNaN(userPoints) || userPoints < 1 || userPoints > 10) {
+                resultDiv.innerHTML = "Please fill in all fields and provide a valid score between 1 and 10.";
+                return;
+            }
+
+            // Judges' points (randomly generated for now)
+            const judgePoints = [
+                Math.round(Math.random() * 9) + 1, // Judge 1
+                Math.round(Math.random() * 9) + 1, // Judge 2
+                Math.round(Math.random() * 9) + 1, // Judge 3
+                Math.round(Math.random() * 9) + 1, // Judge 4
+                10 // Judge 5 always gives 10 points
+            ];
+
+            const judgeImages = [
+                "samay r.png", // Placeholder image for Judge 1
+                "maheep-singh.jpg", // Placeholder image for Judge 2
+                "deepak.png", // Placeholder image for Judge 3
+                "raghu.jpeg", // Placeholder image for Judge 4
+                "balraj.jpeg"  // Placeholder image for Judge 5
+            ];
+
+            const judgeNames = [
+                "Samay", "Mummy", "Deepak", "Raghu", "Gentalman"
+            ];
+
+            let judgesHtml = "";
+            for (let i = 0; i < judgePoints.length; i++) {
+                judgesHtml += `
+                    <div class="judge">
+                        <img src="${judgeImages[i]}" alt="${judgeNames[i]}">
+                        <p>${judgeNames[i]}</p>
+                        <p>Points: <strong>${judgePoints[i]}</strong></p>
+                    </div>
+                `;
+            }
+
+            judgesDiv.innerHTML = judgesHtml;
+            judgesDiv.style.display = "flex";
+
+            // Calculate the average score
+            const averageJudgePoints = Math.round(
+                judgePoints.reduce((sum, points) => sum + points, 0) / judgePoints.length
+            );
+
+            // Display results
+            let resultMessage = `<p>${name}, Your Talent: <strong>${talent}</strong></p>`;
+            resultMessage += `<p>Your Points: <strong>${userPoints}</strong></p>`;
+            resultMessage += `<p>Average Judges' Points: <strong>${averageJudgePoints}</strong></p>`;
+
+            // Final result based on user's score vs judges' average score
+            if (userPoints === averageJudgePoints) {
+                resultMessage += `<p style="color: green;">🎉 Congratulations, you win the show! 🎉</p>`;
+            } else {
+                resultMessage += `<p style="color: red;">🤬 The judges are not impressed! Better luck next time! 🫏🫏</p>`;
+            }
+
+            resultDiv.innerHTML = resultMessage;
+        }
+    </script>
+</body>
+</html>
